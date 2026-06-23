@@ -22,9 +22,16 @@ COPY pyproject.toml uv.lock /code/
 # Install dependencies using uv
 RUN uv sync --frozen
 
+# --- Assignment 2: install PyTorch (CPU) + image libs into the uv venv ---
+ENV VIRTUAL_ENV=/code/.venv
+RUN uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+RUN uv pip install pillow
+# ------------------------------------------------------------------------
+
 # Copy the application code
 COPY ./app /code/app
 COPY main.py /code/
+COPY cifar10_cnn.pth /code/
 
 # Command to run the application
-CMD ["uv", "run", "fastapi", "run", "main.py", "--port", "80"]
+CMD ["/code/.venv/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]

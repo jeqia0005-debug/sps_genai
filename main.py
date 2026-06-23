@@ -1,8 +1,15 @@
-from fastapi import FastAPI, HTTPException
+import io
+
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from pydantic import BaseModel
+
+import torch
+import torchvision.transforms as transforms
+from PIL import Image
 
 from app.bigram_model import BigramModel
 from app.embedding_model import EmbeddingModel
+from app.cnn_model import CNN
 
 app = FastAPI(title="SPS GenAI API")
 
@@ -17,6 +24,20 @@ It tells the story of Edmond Dantes, who is falsely imprisoned and later seeks r
 bigram_model = BigramModel(corpus)
 embedding_model = EmbeddingModel()
 
+# ---- Assignment 2: image classifier ----
+CIFAR10_CLASSES = ["airplane", "automobile", "bird", "cat", "deer",
+                   "dog", "frog", "horse", "ship", "truck"]
+
+cnn_model = CNN(num_classes=10)
+cnn_model.load_state_dict(torch.load("cifar10_cnn.pth", map_location="cpu"))
+cnn_model.eval()  # inference mode
+
+image_transform = transforms.Compose([
+    transforms.Resize((64, 64)),
+    transforms.ToTensor(),
+])
+# -----------------------------------------
+
 
 class TextGenerationRequest(BaseModel):
     start_word: str
@@ -30,6 +51,7 @@ class EmbeddingRequest(BaseModel):
 class SimilarityRequest(BaseModel):
     word1: str
     word2: str
+
 
 @app.get("/")
 def read_root():
@@ -59,3 +81,23 @@ def get_embedding(request: EmbeddingRequest):
 def get_similarity(request: SimilarityRequest):
     similarity = embedding_model.calculate_similarity(request.word1, request.word2)
     return {"word1": request.word1, "word2": request.word2, "similarity": similarity}
+
+
+@app.post("/predict")
+async def predict_image(file: UploadFile = File(...)):
+    """Accept an uploaded image and return the predicted CIFAR10 class."""
+    if not file.content_type or not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="Please upload an image file.")
+
+    image = Image.open(io.BytesIO(await file.read())).convert("RGB")
+    x = image_transform(image).unsqueeze(0)  # -> [1, 3, 64, 64]
+
+    with torch.no_grad():
+        outputs = cnn_model(x)
+        probs = torch.softmax(outputs, dim=1)[0]
+        idx = int(probs.argmax())
+
+    return {
+        "prediction": CIFAR10_CLASSES[idx],
+        "confidence": round(float(probs[idx]), 4),
+    }
