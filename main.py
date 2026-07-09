@@ -1,6 +1,7 @@
 import io
 
 from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 import torch
@@ -10,6 +11,7 @@ from PIL import Image
 from app.bigram_model import BigramModel
 from app.embedding_model import EmbeddingModel
 from app.cnn_model import CNN
+from app.gan_model import generate_digit_image
 
 app = FastAPI(title="SPS GenAI API")
 
@@ -101,3 +103,12 @@ async def predict_image(file: UploadFile = File(...)):
         "prediction": CIFAR10_CLASSES[idx],
         "confidence": round(float(probs[idx]), 4),
     }
+
+@app.get("/generate-digit")
+def generate_digit(num_images: int = 1):
+    """Generate handwritten digit image(s) using the trained GAN generator."""
+    if num_images < 1 or num_images > 16:
+        raise HTTPException(status_code=400, detail="num_images must be between 1 and 16.")
+
+    buffer = generate_digit_image(weights_path="mnist_gan_generator.pth", num_images=num_images)
+    return StreamingResponse(buffer, media_type="image/png")
