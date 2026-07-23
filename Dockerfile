@@ -33,6 +33,8 @@ COPY ./app /code/app
 COPY main.py /code/
 COPY cifar10_cnn.pth /code/
 COPY mnist_gan_generator.pth /code/
+COPY cifar10_energy.pth /code/
+COPY cifar10_diffusion.pth /code/
 
 # Command to run the application
 CMD ["/code/.venv/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]

@@ -1,0 +1,56 @@
+torch version: 2.13.0+cpu
+
+============================================================
+Question 6 (a): y = x^2 + 3x at x = 2, expected dy/dx = 2x + 3 = 7
+============================================================
+x.grad = tensor([7.])
+
+============================================================
+Question 6 (b): same computation with requires_grad=False
+============================================================
+y.requires_grad = False
+y.grad_fn = None
+RuntimeError: element 0 of tensors does not require grad and does not have a grad_fn
+x.grad = None
+
+============================================================
+Question 6 (c) / 7 (c): default value of requires_grad
+============================================================
+torch.tensor([2.0]).requires_grad = False
+
+============================================================
+Question 7 (a): w created without requires_grad
+============================================================
+x.grad = tensor([7.])
+w.grad = None
+
+============================================================
+Question 7 (b): w with requires_grad=True
+============================================================
+x.grad = tensor([7.])
+w.grad = tensor([4., 2.])
+
+============================================================
+Question 8: detach breaks the graph
+============================================================
+z.requires_grad = False
+z.grad_fn = None
+RuntimeError: element 0 of tensors does not require grad and does not have a grad_fn
+
+============================================================
+Question 8 (fixed): clone keeps z in the graph, expected dw/dx = 6
+============================================================
+z.requires_grad = True
+x.grad = tensor([6.])
+
+============================================================
+Question 9: gradients accumulate across backward calls
+============================================================
+After first backward:  x.grad = tensor([2.])
+After second backward: x.grad = tensor([5.]) (2 + 3 = 5, accumulated)
+
+============================================================
+Question 9 (fixed): clear the buffer between backward calls
+============================================================
+After first backward:  x.grad = tensor([2.])
+After second backward: x.grad = tensor([3.]) (no accumulation)

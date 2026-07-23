@@ -1,0 +1,7 @@
+data/
+samples/
+__pycache__/
+.venv/
+.git/
+.DS_Store
+*.md

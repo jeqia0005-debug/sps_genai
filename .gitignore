@@ -1,0 +1,13 @@
+# Datasets (too large for GitHub; downloaded automatically by the training scripts)
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Generated training samples
+samples/
+
+# macOS
+.DS_Store

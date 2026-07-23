@@ -12,6 +12,8 @@ from app.bigram_model import BigramModel
 from app.embedding_model import EmbeddingModel
 from app.cnn_model import CNN
 from app.gan_model import generate_digit_image
+from app.energy_model import generate_energy_image
+from app.diffusion_model import generate_diffusion_image
 
 app = FastAPI(title="SPS GenAI API")
 
@@ -111,4 +113,35 @@ def generate_digit(num_images: int = 1):
         raise HTTPException(status_code=400, detail="num_images must be between 1 and 16.")
 
     buffer = generate_digit_image(weights_path="mnist_gan_generator.pth", num_images=num_images)
+    return StreamingResponse(buffer, media_type="image/png")
+
+@app.get("/generate-energy")
+def generate_energy(num_images: int = 4, steps: int = 256):
+    """Generate CIFAR-10-like images with the Energy-Based Model via Langevin dynamics."""
+    if num_images < 1 or num_images > 16:
+        raise HTTPException(status_code=400, detail="num_images must be between 1 and 16.")
+    if steps < 1 or steps > 1000:
+        raise HTTPException(status_code=400, detail="steps must be between 1 and 1000.")
+
+    buffer = generate_energy_image(
+        weights_path="cifar10_energy.pth",
+        num_images=num_images,
+        steps=steps,
+    )
+    return StreamingResponse(buffer, media_type="image/png")
+
+
+@app.get("/generate-diffusion")
+def generate_diffusion(num_images: int = 4, diffusion_steps: int = 20):
+    """Generate CIFAR-10-like images with the diffusion model via reverse diffusion."""
+    if num_images < 1 or num_images > 16:
+        raise HTTPException(status_code=400, detail="num_images must be between 1 and 16.")
+    if diffusion_steps < 1 or diffusion_steps > 100:
+        raise HTTPException(status_code=400, detail="diffusion_steps must be between 1 and 100.")
+
+    buffer = generate_diffusion_image(
+        weights_path="cifar10_diffusion.pth",
+        num_images=num_images,
+        diffusion_steps=diffusion_steps,
+    )
     return StreamingResponse(buffer, media_type="image/png")
