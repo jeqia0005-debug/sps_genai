@@ -28,6 +28,17 @@ RUN uv pip install torch torchvision --index-url https://download.pytorch.org/wh
 RUN uv pip install pillow
 # ------------------------------------------------------------------------
 
+# --- Assignment 5: transformers + the pretrained GPT-2 weights ---
+# The weights are baked into the image so the container needs no network at
+# runtime; only the LoRA adapters trained by this repository are copied in.
+ENV HF_HOME=/code/.cache/huggingface
+RUN uv pip install transformers
+RUN /code/.venv/bin/python -c "\
+from transformers import AutoModelForCausalLM, AutoTokenizer; \
+AutoModelForCausalLM.from_pretrained('openai-community/gpt2'); \
+AutoTokenizer.from_pretrained('openai-community/gpt2')"
+# -----------------------------------------------------------------
+
 # Copy the application code
 COPY ./app /code/app
 COPY main.py /code/
@@ -35,6 +46,9 @@ COPY cifar10_cnn.pth /code/
 COPY mnist_gan_generator.pth /code/
 COPY cifar10_energy.pth /code/
 COPY cifar10_diffusion.pth /code/
+COPY gpt2_squad_lora.pt /code/
+COPY gpt2_rl_lora.pt /code/
+COPY rl_training_log.json /code/
 
 # Command to run the application
 CMD ["/code/.venv/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
