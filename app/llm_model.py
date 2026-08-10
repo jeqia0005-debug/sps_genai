@@ -30,7 +30,9 @@ BASE_MODEL_NAME = os.environ.get("GPT2_MODEL_NAME", "openai-community/gpt2")
 SFT_ADAPTER_PATH = os.environ.get("GPT2_SFT_ADAPTER", "gpt2_squad_lora.pt")
 RL_ADAPTER_PATH = os.environ.get("GPT2_RL_ADAPTER", "gpt2_rl_lora.pt")
 
-DEFAULT_MAX_NEW_TOKENS = 64
+# A well-formed response is around 52 tokens at the median, so a smaller
+# budget truncates the closing tag on a sizeable fraction of completions.
+DEFAULT_MAX_NEW_TOKENS = 96
 
 
 def resolve_device(preference: str = "auto") -> torch.device:

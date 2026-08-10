@@ -45,7 +45,7 @@ def parse_args():
 
     parser.add_argument("--epochs", type=int, default=200)
     parser.add_argument("--episodes-per-epoch", type=int, default=16)
-    parser.add_argument("--max-new-tokens", type=int, default=64)
+    parser.add_argument("--max-new-tokens", type=int, default=96)
     parser.add_argument("--temperature", type=float, default=1.0)
     parser.add_argument("--lr", type=float, default=1e-4)
     parser.add_argument(

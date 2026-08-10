@@ -40,7 +40,7 @@ class PolicyGradientConfig:
     """Hyperparameters of the RL stage."""
 
     episodes_per_epoch: int = 16     # completions collected before each update
-    max_new_tokens: int = 64
+    max_new_tokens: int = 96
     temperature: float = 1.0
     top_k: int = 50
     learning_rate: float = 1e-4
@@ -219,7 +219,7 @@ class PolicyGradientTrainer:
 def evaluate(
     policy: QuestionAnswerer,
     examples: list[QAExample],
-    max_new_tokens: int = 64,
+    max_new_tokens: int = 96,
     temperature: float = 0.7,
     batch_size: int = 8,
 ) -> dict:

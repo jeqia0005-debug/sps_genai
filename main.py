@@ -111,7 +111,7 @@ class QuestionRequest(BaseModel):
     question: str
     context: str
     gold_answer: str | None = None  # optional, enables reward scoring
-    max_new_tokens: int = 64
+    max_new_tokens: int = 96
     temperature: float = 0.7
 
 
