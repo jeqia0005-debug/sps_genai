@@ -1,5 +1,6 @@
 data/
 samples/
+tests/
 __pycache__/
 .venv/
 .git/
