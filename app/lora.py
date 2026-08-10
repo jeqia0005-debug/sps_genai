@@ -46,8 +46,12 @@ class LoRALayer(nn.Module):
         self.scaling = alpha / rank
         self.enabled = True
 
-        self.lora_A = nn.Parameter(torch.empty(in_features, rank))
-        self.lora_B = nn.Parameter(torch.zeros(rank, out_features))
+        # The adapter is created on the device and in the dtype of the weight it
+        # wraps, so injecting it into an already placed model needs no follow-up
+        # call to `.to(...)`.
+        like = {"device": base.weight.device, "dtype": base.weight.dtype}
+        self.lora_A = nn.Parameter(torch.empty(in_features, rank, **like))
+        self.lora_B = nn.Parameter(torch.zeros(rank, out_features, **like))
         self.dropout = nn.Dropout(dropout) if dropout > 0 else nn.Identity()
 
         # A is initialised like a regular layer and B with zeros, so the adapter

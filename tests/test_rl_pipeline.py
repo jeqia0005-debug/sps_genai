@@ -113,6 +113,19 @@ def test_adapter_starts_as_a_no_op_and_can_be_switched_off():
         assert torch.allclose(model(x), baseline, atol=1e-6)
 
 
+def test_adapter_is_created_on_the_device_and_dtype_of_the_base_weight():
+    """Injection must not depend on a later `.to(...)` to place the adapter."""
+    model = TinyAttention().to(torch.float64)
+    inject_lora(model, rank=4, alpha=8)
+
+    for param in lora_parameters(model):
+        assert param.dtype == torch.float64
+        assert param.device == model.c_attn.base.weight.device
+
+    # Merging reads both tensors at once, so a mismatch would fail here.
+    merge_lora(model)
+
+
 def test_merging_preserves_the_adapted_output():
     torch.manual_seed(0)
     model = TinyAttention()
