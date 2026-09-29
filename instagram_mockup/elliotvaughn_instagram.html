@@ -1,0 +1,746 @@
+<!--
+==========================================================================
+  PLACEHOLDER IMAGE SHOPPING LIST  (search this file for "REPLACE IMAGE N")
+==========================================================================
+  IMAGE 1  – Profile photo: moody landscape or silhouette, no face.
+             Ratio 1:1 (shown as a circle). Reused as the small avatar on
+             every post header (marked "REPLACE IMAGE 1" there too).
+  IMAGE 2  – Highlight "Presets": edited photo shown on a phone/laptop screen.    1:1 (circle)
+  IMAGE 3  – Highlight "BTS": camera on a tripod in the dark before sunrise.     1:1 (circle)
+  IMAGE 4  – Highlight "Wales": Welsh mountain ridge under low cloud.            1:1 (circle)
+  IMAGE 5  – Highlight "Gear": camera bag / kit flat-lay.                        1:1 (circle)
+
+  Profile grid (all 1:1 square):
+  IMAGE 6  – Foggy mountain valley at sunrise, cool tones        (same photo as IMAGE 15, square crop)
+  IMAGE 7  – Before/after edit                                   (square crop of the edited "after" photo, IMAGE 17)
+  IMAGE 8  – Empty grey seascape, muted tones                    (same photo as IMAGE 18, square crop)
+  IMAGE 9  – Golden-hour mountain lake with reflection           (same photo as IMAGE 19)
+  IMAGE 10 – Pine forest in drifting mist
+  IMAGE 11 – Rocky coastline with waves at dusk
+  IMAGE 12 – Snow-capped peak under a blue-hour sky
+  IMAGE 13 – Winding mountain road through an empty valley
+  IMAGE 14 – Lone tree on open moorland in heavy fog
+
+  Posts:
+  IMAGE 15 – Post 1: foggy mountain valley at sunrise, cool tones.                     4:5 portrait
+  IMAGE 16 – Post 2 (left half): same landscape, straight out of camera (flat, dull).  1:2 (half of a 1:1 square)
+  IMAGE 17 – Post 2 (right half): same landscape edited with the preset
+             (cool shadows, warm light).                                              1:2 (half of a 1:1 square)
+  IMAGE 18 – Post 3: empty grey seascape, lots of open space, muted tones.             4:5 portrait
+  IMAGE 19 – Post 4: golden hour mountain lake with reflection, classic scenic look.   1:1 square
+
+  To swap a placeholder: replace the <div class="ph ..."> under the comment with
+  <img src="your-photo.jpg" class="ph-img" alt="">  (the ph-img class keeps the
+  same size and crops with object-fit: cover). For circles, keep the parent wrapper.
+==========================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>elliotvaughn.raw</title>
+<style>
+  :root {
+    --ig-text: #000000;
+    --ig-secondary: #737373;
+    --ig-divider: #dbdbdb;
+    --ig-btn: #efefef;
+    --ig-blue: #0095f6;
+    --ig-link: #00376b;
+    --ph-bg: #ececec;
+    --ph-border: #b3b3b3;
+    --ph-text: #8e8e8e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #e6e6e6; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ig-text);
+    font-size: 14px;
+    line-height: 18px;
+    -webkit-font-smoothing: antialiased;
+    padding: 80px 16px;
+  }
+  svg { display: block; }
+  .icon { width: 24px; height: 24px; color: var(--ig-text); }
+
+  /* ---------- phone screen ---------- */
+  .screen {
+    width: 400px;
+    max-width: 100%;
+    margin: 0 auto 160px;
+    background: #fff;
+    overflow: hidden;
+    position: relative;
+  }
+  .screen:last-child { margin-bottom: 0; }
+
+  /* status bar */
+  .status {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px 0 30px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+  }
+  .status-right { display: flex; align-items: center; gap: 6px; }
+
+  /* top bar */
+  .topbar {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    position: relative;
+  }
+  .topbar .back { width: 24px; height: 24px; flex: none; }
+  .topbar .more { margin-left: auto; }
+  .topbar-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.1px;
+  }
+  .verified { width: 12px; height: 12px; flex: none; }
+  .topbar-title .verified { width: 13px; height: 13px; }
+
+  /* placeholders */
+  .ph {
+    background: var(--ph-bg);
+    border: 1px dashed var(--ph-border);
+    color: var(--ph-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 11px;
+    line-height: 14px;
+    padding: 12px;
+    overflow: hidden;
+    width: 100%;
+  }
+  .ph-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .ratio-1-1 { aspect-ratio: 1 / 1; }
+  .ratio-4-5 { aspect-ratio: 4 / 5; }
+  .ph-circle { border-radius: 50%; width: 100%; height: 100%; padding: 6px; }
+
+  /* ---------- profile ---------- */
+  .profile-head {
+    display: flex;
+    align-items: center;
+    padding: 6px 16px 0;
+  }
+  .avatar-lg { width: 86px; height: 86px; flex: none; border-radius: 50%; overflow: hidden; }
+  .avatar-lg .ph { font-size: 8px; line-height: 10px; padding: 8px; }
+  .stats {
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+    padding-left: 12px;
+    text-align: center;
+  }
+  .stat-num { font-size: 16px; font-weight: 700; line-height: 20px; }
+  .stat-label { font-size: 14px; line-height: 18px; }
+
+  .bio { padding: 12px 16px 0; font-size: 14px; line-height: 18px; }
+  .bio .name { font-weight: 600; }
+  .bio .category { color: var(--ig-secondary); }
+  .bio p { margin: 0; }
+  .bio .link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--ig-link);
+    font-weight: 600;
+    margin-top: 1px;
+  }
+  .bio .link svg { width: 14px; height: 14px; color: var(--ig-link); }
+
+  .btn-row { display: flex; gap: 6px; padding: 14px 16px 0; }
+  .btn {
+    flex: 1;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--ig-btn);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .btn-sq { flex: none; width: 34px; }
+  .btn-sq svg { width: 16px; height: 16px; }
+
+  .highlights { display: flex; gap: 16px; padding: 16px 16px 4px; }
+  .hl { width: 64px; text-align: center; }
+  .hl-ring {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 1px solid var(--ig-divider);
+    padding: 3px;
+  }
+  .hl-ring .ph { font-size: 6.5px; line-height: 8px; padding: 9px; }
+  .hl-label { font-size: 12px; line-height: 16px; margin-top: 5px; }
+  .hl-new .hl-ring { display: flex; align-items: center; justify-content: center; }
+
+  .tabs {
+    display: flex;
+    margin-top: 12px;
+    border-top: 1px solid transparent;
+  }
+  .tab {
+    flex: 1;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ig-secondary);
+    border-bottom: 1px solid var(--ig-divider);
+  }
+  .tab svg { color: var(--ig-secondary); }
+  .tab.active { border-bottom: 1px solid var(--ig-text); }
+  .tab.active svg { color: var(--ig-text); }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 2px; }
+  .tile { position: relative; }
+  .tile .ph { font-size: 10px; line-height: 13px; padding: 8px; }
+  .tile-badge { position: absolute; top: 8px; right: 8px; width: 18px; height: 18px; filter: drop-shadow(0 0 1.5px rgba(0,0,0,0.45)); }
+
+  /* bottom nav */
+  .bottomnav {
+    border-top: 1px solid var(--ig-divider);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: #fff;
+  }
+  .nav-avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 2px solid transparent;
+    padding: 1px;
+  }
+  .nav-avatar.active { border-color: var(--ig-text); }
+  .nav-avatar .ph { padding: 0; font-size: 0; }
+  .home-ind { height: 34px; display: flex; align-items: center; justify-content: center; }
+  .home-ind span { width: 134px; height: 5px; border-radius: 3px; background: #000; }
+
+  /* ---------- post ---------- */
+  .post-top {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 10px;
+    border-bottom: 1px solid var(--ig-divider);
+  }
+  .post-avatar {
+    width: 32px; height: 32px; border-radius: 50%; flex: none; overflow: hidden;
+  }
+  .post-avatar .ph { padding: 0; font-size: 6px; line-height: 7px; }
+  .post-user { display: flex; flex-direction: column; min-width: 0; margin-left: 2px; }
+  .post-user .uname { display: flex; align-items: center; gap: 4px; font-weight: 600; font-size: 14px; line-height: 18px; }
+  .post-user .loc { font-size: 12px; line-height: 15px; }
+  .post-top .more { margin-left: auto; }
+
+  .post-media { position: relative; }
+  .carousel { display: flex; aspect-ratio: 1 / 1; }
+  .carousel .ph { width: 50%; height: 100%; }
+  .carousel .ph + .ph { border-left: none; }
+  .count-pill {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(18, 18, 18, 0.72);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 14px;
+    padding: 5px 9px;
+    border-radius: 12px;
+  }
+
+  .actions {
+    height: 46px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    position: relative;
+  }
+  .actions .left { display: flex; gap: 16px; }
+  .actions .save { margin-left: auto; }
+  .dots {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 4px;
+  }
+  .dots span { width: 6px; height: 6px; border-radius: 50%; background: #a8a8a8; }
+  .dots span.on { background: var(--ig-blue); }
+
+  .post-body { padding: 0 16px 14px; }
+  .likes { font-weight: 600; margin-bottom: 6px; }
+  .caption { margin-bottom: 6px; }
+  .caption b, .comment b { font-weight: 600; }
+  .view-all { color: var(--ig-secondary); margin-bottom: 6px; }
+  .comment { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px; }
+  .comment .txt { flex: 1; }
+  .comment svg { width: 12px; height: 12px; margin-top: 3px; color: var(--ig-secondary); flex: none; }
+  .timestamp { color: var(--ig-secondary); font-size: 12px; line-height: 16px; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<!-- ================= SHARED SVG ICON DEFINITIONS (not visible) ================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-back" viewBox="0 0 24 24"><polyline points="15.5 4 7.5 12 15.5 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="5.5" cy="12" r="1.6" fill="currentColor"/><circle cx="18.5" cy="12" r="1.6" fill="currentColor"/></symbol>
+    <symbol id="i-verified" viewBox="0 0 40 40"><path fill="#0095F6" fill-rule="evenodd" d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path fill="currentColor" d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"/></symbol>
+    <symbol id="i-comment" viewBox="0 0 24 24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><line x1="22" y1="3" x2="9.218" y2="10.083" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><polygon points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><polygon points="20 21 12 13.44 4 21 4 3 20 3 20 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="9.015" y1="3" x2="9.015" y2="21" fill="none" stroke="currentColor" stroke-width="2"/><line x1="14.985" y1="3" x2="14.985" y2="21" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="9.015" x2="3" y2="9.015" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="14.985" x2="3" y2="14.985" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-reels" viewBox="0 0 24 24"><line x1="2.049" y1="7.002" x2="21.95" y2="7.002" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><line x1="13.504" y1="2.001" x2="16.362" y2="7.002" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="7.207" y1="2.11" x2="10.002" y2="7.002" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12.001v3.449c0 2.849.698 4.006 1.606 4.945.94.908 2.098 1.607 4.946 1.607h6.896c2.848 0 4.006-.699 4.946-1.607.908-.939 1.606-2.096 1.606-4.945V8.552c0-2.848-.698-4.006-1.606-4.945C19.454 2.699 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.546 2 5.704 2 8.552Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path fill="currentColor" fill-rule="evenodd" d="M9.763 17.664a.908.908 0 0 1-.454-.787V11.63a.909.909 0 0 1 1.364-.788l4.545 2.624a.909.909 0 0 1 0 1.575l-4.545 2.624a.91.91 0 0 1-.91-.001Z"/></symbol>
+    <symbol id="i-tagged" viewBox="0 0 24 24"><path d="M10.201 3.797 12 1.997l1.799 1.8a1.59 1.59 0 0 0 1.124.465h5.259A1.818 1.818 0 0 1 22 6.08v14.104a1.818 1.818 0 0 1-1.818 1.818H3.818A1.818 1.818 0 0 1 2 20.184V6.08a1.818 1.818 0 0 1 1.818-1.818h5.26a1.59 1.59 0 0 0 1.123-.465Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.598 22.002V21.4a3.949 3.949 0 0 0-3.948-3.949H9.495A3.949 3.949 0 0 0 5.546 21.4v.603" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12.072" cy="11.075" r="3.521" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M9.005 16.545a2.997 2.997 0 0 1 2.997-2.997A2.997 2.997 0 0 1 15 16.545V22h7V11.543L12 2 2 11.543V22h7.005Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><path d="M19 10.5A8.5 8.5 0 1 1 10.5 2a8.5 8.5 0 0 1 8.5 8.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="16.511" y1="16.511" x2="22" y2="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-new" viewBox="0 0 24 24"><path d="M2 12v3.45c0 2.849.698 4.005 1.606 4.944.94.909 2.098 1.608 4.946 1.608h6.896c2.848 0 4.006-.7 4.946-1.608C21.302 19.455 22 18.3 22 15.45V8.552c0-2.849-.698-4.006-1.606-4.945C19.454 2.7 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.547 2 5.703 2 8.552Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="6.545" y1="12.001" x2="17.455" y2="12.001" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="12.003" y1="6.545" x2="12.003" y2="17.455" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5M10.8 6.4l1.9-1.9a4.6 4.6 0 0 1 6.5 6.5l-1.9 1.9M13.2 17.6l-1.9 1.9a4.6 4.6 0 0 1-6.5-6.5l1.9-1.9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-adduser" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1.5 21v-.5A5.5 5.5 0 0 1 7 15h4a5.5 5.5 0 0 1 5.5 5.5v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="19.5" y1="7" x2="19.5" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="10.5" x2="23" y2="10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-carousel" viewBox="0 0 48 48"><path fill="#fff" d="M34.8 29.7V11c0-2.9-2.3-5.2-5.2-5.2H11c-2.9 0-5.2 2.3-5.2 5.2v18.7c0 2.9 2.3 5.2 5.2 5.2h18.7c2.8-.1 5.1-2.4 5.1-5.2zM39.2 15v16.1c0 4.5-3.7 8.2-8.2 8.2H14.9c-.6 0-.9.7-.5 1.1 1 1.1 2.4 1.8 4.1 1.8h13.4c5.7 0 10.3-4.6 10.3-10.3V18.5c0-1.6-.7-3.1-1.8-4.1-.5-.4-1.2 0-1.2.6z"/></symbol>
+    <symbol id="i-signal" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="0.8" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="0.8" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="0.8" fill="currentColor"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 16 12"><path fill="currentColor" d="M8 2.4c2.3 0 4.4.9 6 2.4l1.1-1.1A10 10 0 0 0 8 .8 10 10 0 0 0 .9 3.7L2 4.8a8.5 8.5 0 0 1 6-2.4Zm0 3.3c1.4 0 2.6.5 3.6 1.4l1.1-1.1A6.8 6.8 0 0 0 8 4.1 6.8 6.8 0 0 0 3.3 6l1.1 1.1c1-.9 2.2-1.4 3.6-1.4Zm0 3.3c.5 0 1 .2 1.3.5L8 11.2 6.7 9.5c.3-.3.8-.5 1.3-.5Z"/></symbol>
+    <symbol id="i-battery" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" stroke-opacity="0.4"/><rect x="2" y="2" width="20" height="9" rx="2.2" fill="currentColor"/><path d="M25 4.5v4c.8-.3 1.4-1.1 1.4-2s-.6-1.7-1.4-2Z" fill="currentColor" fill-opacity="0.45"/></symbol>
+  </defs>
+</svg>
+
+
+<!-- ======================================================================
+     SCREEN 1 — PROFILE
+     ====================================================================== -->
+<section class="screen" id="screen-profile">
+
+  <div class="status">
+    <span>9:41</span>
+    <div class="status-right">
+      <svg width="18" height="12"><use href="#i-signal"/></svg>
+      <svg width="16" height="12"><use href="#i-wifi"/></svg>
+      <svg width="27" height="13"><use href="#i-battery"/></svg>
+    </div>
+  </div>
+
+  <div class="topbar">
+    <svg class="icon back"><use href="#i-back"/></svg>
+    <div class="topbar-title">
+      elliotvaughn.raw
+      <svg class="verified"><use href="#i-verified"/></svg>
+    </div>
+    <svg class="icon more"><use href="#i-more"/></svg>
+  </div>
+
+  <div class="profile-head">
+    <div class="avatar-lg">
+      <!-- REPLACE IMAGE 1 -->
+      <div class="ph ph-circle">PLACEHOLDER: profile photo: moody landscape or silhouette, no face</div>
+    </div>
+    <div class="stats">
+      <div><div class="stat-num">596</div><div class="stat-label">Posts</div></div>
+      <div><div class="stat-num">48.2k</div><div class="stat-label">Followers</div></div>
+      <div><div class="stat-num">312</div><div class="stat-label">Following</div></div>
+    </div>
+  </div>
+
+  <div class="bio">
+    <p class="name">Elliot Vaughn</p>
+    <p class="category">Photographer</p>
+    <p>Landscape photographer.</p>
+    <p>Cold mornings, long drives, honest light.</p>
+    <p>Chasing fog and first light across Wales and wherever the weather sends me next.</p>
+    <p>📍 Snowdonia, most days</p>
+    <p>Northern Light Vol.1 preset pack out now, limited first run 👇</p>
+    <div class="link">
+      <svg><use href="#i-link"/></svg>
+      <span>elliotvaughn.com/shop</span>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <div class="btn">Follow</div>
+    <div class="btn">Message</div>
+    <div class="btn btn-sq"><svg><use href="#i-adduser"/></svg></div>
+  </div>
+
+  <div class="highlights">
+    <div class="hl">
+      <div class="hl-ring">
+        <!-- REPLACE IMAGE 2 -->
+        <div class="ph ph-circle">PLACEHOLDER: presets cover</div>
+      </div>
+      <div class="hl-label">Presets</div>
+    </div>
+    <div class="hl">
+      <div class="hl-ring">
+        <!-- REPLACE IMAGE 3 -->
+        <div class="ph ph-circle">PLACEHOLDER: camera on tripod, pre-dawn</div>
+      </div>
+      <div class="hl-label">BTS</div>
+    </div>
+    <div class="hl">
+      <div class="hl-ring">
+        <!-- REPLACE IMAGE 4 -->
+        <div class="ph ph-circle">PLACEHOLDER: Welsh mountain ridge</div>
+      </div>
+      <div class="hl-label">Wales</div>
+    </div>
+    <div class="hl">
+      <div class="hl-ring">
+        <!-- REPLACE IMAGE 5 -->
+        <div class="ph ph-circle">PLACEHOLDER: camera gear flat-lay</div>
+      </div>
+      <div class="hl-label">Gear</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active"><svg class="icon"><use href="#i-grid"/></svg></div>
+    <div class="tab"><svg class="icon"><use href="#i-reels"/></svg></div>
+    <div class="tab"><svg class="icon"><use href="#i-tagged"/></svg></div>
+  </div>
+
+  <div class="grid">
+    <div class="tile">
+      <!-- REPLACE IMAGE 6 (Post 1) -->
+      <div class="ph ratio-1-1">PLACEHOLDER: foggy mountain valley at sunrise, cool tones</div>
+    </div>
+    <div class="tile">
+      <!-- REPLACE IMAGE 7 (Post 2) -->
+      <div class="ph ratio-1-1">PLACEHOLDER: before/after edit (edited version, cool shadows, warm light)</div>
+      <svg class="tile-badge"><use href="#i-carousel"/></svg>
+    </div>
+    <div class="tile">
+      <!-- REPLACE IMAGE 8 (Post 3) -->
+      <div class="ph ratio-1-1">PLACEHOLDER: empty grey seascape, muted tones</div>
+    </div>
+    <div class="tile">
+      <!-- REPLACE IMAGE 9 (Post 4) -->
+      <div class="ph ratio-1-1">PLACEHOLDER: golden-hour mountain lake with reflection</div>
+    </div>
+    <div class="tile">
+      <!-- REPLACE IMAGE 10 -->
+      <div class="ph ratio-1-1">PLACEHOLDER: pine forest in drifting mist</div>
+    </div>
+    <div class="tile">
+      <!-- REPLACE IMAGE 11 -->
+      <div class="ph ratio-1-1">PLACEHOLDER: rocky coastline with waves at dusk</div>
+    </div>
+    <div class="tile">
+      <!-- REPLACE IMAGE 12 -->
+      <div class="ph ratio-1-1">PLACEHOLDER: snow-capped peak under blue-hour sky</div>
+    </div>
+    <div class="tile">
+      <!-- REPLACE IMAGE 13 -->
+      <div class="ph ratio-1-1">PLACEHOLDER: winding mountain road through empty valley</div>
+    </div>
+    <div class="tile">
+      <!-- REPLACE IMAGE 14 -->
+      <div class="ph ratio-1-1">PLACEHOLDER: lone tree on moorland in heavy fog</div>
+    </div>
+  </div>
+
+  <nav class="bottomnav">
+    <svg class="icon"><use href="#i-home"/></svg>
+    <svg class="icon"><use href="#i-search"/></svg>
+    <svg class="icon"><use href="#i-new"/></svg>
+    <svg class="icon"><use href="#i-reels"/></svg>
+    <div class="nav-avatar active">
+      <!-- REPLACE IMAGE 1 (profile photo, tiny) -->
+      <div class="ph ph-circle"></div>
+    </div>
+  </nav>
+  <div class="home-ind"><span></span></div>
+</section>
+
+
+<!-- ======================================================================
+     SCREEN 2 — POST 1
+     ====================================================================== -->
+<section class="screen" id="screen-post-1">
+
+  <div class="status">
+    <span>9:41</span>
+    <div class="status-right">
+      <svg width="18" height="12"><use href="#i-signal"/></svg>
+      <svg width="16" height="12"><use href="#i-wifi"/></svg>
+      <svg width="27" height="13"><use href="#i-battery"/></svg>
+    </div>
+  </div>
+
+  <div class="post-top">
+    <svg class="icon back"><use href="#i-back"/></svg>
+    <div class="post-avatar">
+      <!-- REPLACE IMAGE 1 (profile photo, small avatar) -->
+      <div class="ph ph-circle"></div>
+    </div>
+    <div class="post-user">
+      <div class="uname">elliotvaughn.raw <svg class="verified"><use href="#i-verified"/></svg></div>
+      <div class="loc">Snowdonia, Wales</div>
+    </div>
+    <svg class="icon more"><use href="#i-more"/></svg>
+  </div>
+
+  <div class="post-media">
+    <!-- REPLACE IMAGE 15 -->
+    <div class="ph ratio-4-5">PLACEHOLDER: foggy mountain valley at sunrise, cool tones</div>
+  </div>
+
+  <div class="actions">
+    <div class="left">
+      <svg class="icon"><use href="#i-heart"/></svg>
+      <svg class="icon"><use href="#i-comment"/></svg>
+      <svg class="icon"><use href="#i-share"/></svg>
+    </div>
+    <svg class="icon save"><use href="#i-save"/></svg>
+  </div>
+
+  <div class="post-body">
+    <div class="likes">2,318 likes</div>
+    <div class="caption"><b>elliotvaughn.raw</b> Woke up at 4am for this one. The fog sat in the valley for maybe ten minutes before the sun burned it off. Some mornings you get nothing. This morning I got this. I've been sitting on this colour grade for a while. I finally packed it into a preset. Dropping it this week.</div>
+    <div class="view-all">View all 64 comments</div>
+    <div class="comment">
+      <div class="txt"><b>ffion.captures</b> That light spilling over the ridge is unreal. Worth every minute of the 4am alarm 🙌</div>
+      <svg><use href="#i-heart"/></svg>
+    </div>
+    <div class="timestamp">18 hours ago</div>
+  </div>
+
+  <nav class="bottomnav">
+    <svg class="icon"><use href="#i-home"/></svg>
+    <svg class="icon"><use href="#i-search"/></svg>
+    <svg class="icon"><use href="#i-new"/></svg>
+    <svg class="icon"><use href="#i-reels"/></svg>
+    <div class="nav-avatar">
+      <!-- REPLACE IMAGE 1 (profile photo, tiny) -->
+      <div class="ph ph-circle"></div>
+    </div>
+  </nav>
+  <div class="home-ind"><span></span></div>
+</section>
+
+
+<!-- ======================================================================
+     SCREEN 3 — POST 2 (before / after carousel)
+     ====================================================================== -->
+<section class="screen" id="screen-post-2">
+
+  <div class="status">
+    <span>9:41</span>
+    <div class="status-right">
+      <svg width="18" height="12"><use href="#i-signal"/></svg>
+      <svg width="16" height="12"><use href="#i-wifi"/></svg>
+      <svg width="27" height="13"><use href="#i-battery"/></svg>
+    </div>
+  </div>
+
+  <div class="post-top">
+    <svg class="icon back"><use href="#i-back"/></svg>
+    <div class="post-avatar">
+      <!-- REPLACE IMAGE 1 (profile photo, small avatar) -->
+      <div class="ph ph-circle"></div>
+    </div>
+    <div class="post-user">
+      <div class="uname">elliotvaughn.raw <svg class="verified"><use href="#i-verified"/></svg></div>
+      <div class="loc">Snowdonia, Wales</div>
+    </div>
+    <svg class="icon more"><use href="#i-more"/></svg>
+  </div>
+
+  <div class="post-media">
+    <div class="carousel">
+      <!-- REPLACE IMAGE 16 -->
+      <div class="ph">PLACEHOLDER: same landscape, straight out of camera (flat, dull)</div>
+      <!-- REPLACE IMAGE 17 -->
+      <div class="ph">PLACEHOLDER: same landscape edited with the preset (cool shadows, warm light)</div>
+    </div>
+    <div class="count-pill">1/2</div>
+  </div>
+
+  <div class="actions">
+    <div class="left">
+      <svg class="icon"><use href="#i-heart"/></svg>
+      <svg class="icon"><use href="#i-comment"/></svg>
+      <svg class="icon"><use href="#i-share"/></svg>
+    </div>
+    <div class="dots"><span class="on"></span><span></span></div>
+    <svg class="icon save"><use href="#i-save"/></svg>
+  </div>
+
+  <div class="post-body">
+    <div class="likes">3,102 likes</div>
+    <div class="caption"><b>elliotvaughn.raw</b> Left is straight out of camera. Right is Northern Light Vol.1. Three years of shooting in this kind of light went into these presets. One tap and your photos get the same tones I use on my own work. Link in bio. First 50 licences are 20% off with code EARLY.</div>
+    <div class="view-all">View all 211 comments</div>
+    <div class="comment">
+      <div class="txt"><b>tomhale.visuals</b> Does this work on Sony files? Shooting ARW on an A7 IV and my greens always come out muddy</div>
+      <svg><use href="#i-heart"/></svg>
+    </div>
+    <div class="timestamp">2 days ago</div>
+  </div>
+
+  <nav class="bottomnav">
+    <svg class="icon"><use href="#i-home"/></svg>
+    <svg class="icon"><use href="#i-search"/></svg>
+    <svg class="icon"><use href="#i-new"/></svg>
+    <svg class="icon"><use href="#i-reels"/></svg>
+    <div class="nav-avatar">
+      <!-- REPLACE IMAGE 1 (profile photo, tiny) -->
+      <div class="ph ph-circle"></div>
+    </div>
+  </nav>
+  <div class="home-ind"><span></span></div>
+</section>
+
+
+<!-- ======================================================================
+     SCREEN 4 — POST 3
+     ====================================================================== -->
+<section class="screen" id="screen-post-3">
+
+  <div class="status">
+    <span>9:41</span>
+    <div class="status-right">
+      <svg width="18" height="12"><use href="#i-signal"/></svg>
+      <svg width="16" height="12"><use href="#i-wifi"/></svg>
+      <svg width="27" height="13"><use href="#i-battery"/></svg>
+    </div>
+  </div>
+
+  <div class="post-top">
+    <svg class="icon back"><use href="#i-back"/></svg>
+    <div class="post-avatar">
+      <!-- REPLACE IMAGE 1 (profile photo, small avatar) -->
+      <div class="ph ph-circle"></div>
+    </div>
+    <div class="post-user">
+      <div class="uname">elliotvaughn.raw <svg class="verified"><use href="#i-verified"/></svg></div>
+      <div class="loc">somewhere on the coast</div>
+    </div>
+    <svg class="icon more"><use href="#i-more"/></svg>
+  </div>
+
+  <div class="post-media">
+    <!-- REPLACE IMAGE 18 -->
+    <div class="ph ratio-4-5">PLACEHOLDER: empty grey seascape, lots of open space, muted tones</div>
+  </div>
+
+  <div class="actions">
+    <div class="left">
+      <svg class="icon"><use href="#i-heart"/></svg>
+      <svg class="icon"><use href="#i-comment"/></svg>
+      <svg class="icon"><use href="#i-share"/></svg>
+    </div>
+    <svg class="icon save"><use href="#i-save"/></svg>
+  </div>
+
+  <div class="post-body">
+    <div class="likes">1,847 likes</div>
+    <div class="caption"><b>elliotvaughn.raw</b> Someone messaged me asking if selling presets means I sold out. I don't have a clean answer. I started this account because I liked being alone with a camera. No numbers, no launch. Just the light. Some days I miss that. Today was one of them. Then I got home and checked the sales page anyway.</div>
+    <div class="view-all">View all 97 comments</div>
+    <div class="comment">
+      <div class="txt"><b>hannah.outdoors</b> Honestly respect you for saying this out loud. You can sell presets and still shoot for yourself. The light's still yours ❤️</div>
+      <svg><use href="#i-heart"/></svg>
+    </div>
+    <div class="timestamp">4 days ago</div>
+  </div>
+
+  <nav class="bottomnav">
+    <svg class="icon"><use href="#i-home"/></svg>
+    <svg class="icon"><use href="#i-search"/></svg>
+    <svg class="icon"><use href="#i-new"/></svg>
+    <svg class="icon"><use href="#i-reels"/></svg>
+    <div class="nav-avatar">
+      <!-- REPLACE IMAGE 1 (profile photo, tiny) -->
+      <div class="ph ph-circle"></div>
+    </div>
+  </nav>
+  <div class="home-ind"><span></span></div>
+</section>
+
+
+<!-- ======================================================================
+     SCREEN 5 — POST 4
+     ====================================================================== -->
+<section class="screen" id="screen-post-4">
+
+  <div class="status">
+    <span>9:41</span>
+    <div class="status-right">
+      <svg width="18" height="12"><use href="#i-signal"/></svg>
+      <svg width="16" height="12"><use href="#i-wifi"/></svg>
+      <svg width="27" height="13"><use href="#i-battery"/></svg>
+    </div>
+  </div>
+
+  <div class="post-top">
+    <svg class="icon back"><use href="#i-back"/></svg>
+    <div class="post-avatar">
+      <!-- REPLACE IMAGE 1 (profile photo, small avatar) -->
+      <div class="ph ph-circle"></div>
+    </div>
+    <div class="post-user">
+      <div class="uname">elliotvaughn.raw <svg class="verified"><use href="#i-verified"/></svg></div>
+      <div class="loc">Eryri National Park</div>
+    </div>
+    <svg class="icon more"><use href="#i-more"/></svg>
+  </div>
+
+  <div class="post-media">
+    <!-- REPLACE IMAGE 19 -->
+    <div class="ph ratio-1-1">PLACEHOLDER: golden hour mountain lake with reflection, classic scenic look</div>
+  </div>
+
+  <div class="actions">
+    <div class="left">
+      <svg class="icon"><use href="#i-heart"/></svg>
+      <svg class="icon"><use href="#i-comment"/></svg>
+      <svg class="icon"><use href="#i-share"/></svg>
+    </div>
+    <svg class="icon save"><use href="#i-save"/></svg>
+  </div>
+
+  <div class="post-body">
+    <div class="likes">4,559 likes</div>
+    <div class="caption"><b>elliotvaughn.raw</b> The limited first run of Northern Light Vol.1 is gone. Thank you, really. Vol.2 is already in the works. This time I want you to help pick the scenes. Drop a location or a mood in the comments and I'll shoot for it. Biggest requests so far: autumn forests and blue hour cities.</div>
+    <div class="view-all">View all 348 comments</div>
+    <div class="comment">
+      <div class="txt"><b>lakes.and.lenses</b> Autumn in the Lake District please 🍂 Buttermere in October would be perfect</div>
+      <svg><use href="#i-heart"/></svg>
+    </div>
+    <div class="comment">
+      <div class="txt"><b>kenji.nightwalks</b> Blue hour Tokyo! Would love to see your tones on neon and wet streets 🌃</div>
+      <svg><use href="#i-heart"/></svg>
+    </div>
+    <div class="timestamp">6 days ago</div>
+  </div>
+
+  <nav class="bottomnav">
+    <svg class="icon"><use href="#i-home"/></svg>
+    <svg class="icon"><use href="#i-search"/></svg>
+    <svg class="icon"><use href="#i-new"/></svg>
+    <svg class="icon"><use href="#i-reels"/></svg>
+    <div class="nav-avatar">
+      <!-- REPLACE IMAGE 1 (profile photo, tiny) -->
+      <div class="ph ph-circle"></div>
+    </div>
+  </nav>
+  <div class="home-ind"><span></span></div>
+</section>
+
+</body>
+</html>
